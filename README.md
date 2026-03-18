@@ -61,6 +61,8 @@ If you want to directly open the editor instead (incase of tape corruption), you
 tapeify editor
 ```
 
+On the Metadata Editor, run Analyze Tape to find the duration of the audio. Don't forget to save the metadata before exiting the editor
+
 
 ## Limitations & Known Issues
 
