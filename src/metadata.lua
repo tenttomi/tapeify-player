@@ -61,7 +61,7 @@ end
 -- READ SECTION START ------
 
 function M.readChecksum(t)
-    local str = string.unpack(">L", t[2])
+    local str = string.unpack(">I4", t[2])
     return str
 end
 
@@ -82,7 +82,7 @@ function M.readUniqueID(t)
 end
 
 function M.readDuration(t)
-    local str = string.unpack(">L", t[7])
+    local str = string.unpack(">I4", t[7])
     return str
 end
 
@@ -109,17 +109,17 @@ function M.readAlbum(t)
 end
 
 function M.readYear(t)
-    local str = string.unpack(">L", t[13])
+    local str = string.unpack(">I4", t[13])
     return str
 end
 
 function M.readTrackNumber(t)
-    local str = string.unpack(">H", t[14])
+    local str = string.unpack(">I2", t[14])
     return str
 end
 
 function M.readGenreId(t)
-    local str = string.unpack(">H", t[15])
+    local str = string.unpack(">I2", t[15])
     return str
 end
 
@@ -172,7 +172,7 @@ local function writeUniqueID(t)
 end
 
 function M.writeDuration(t, duration)
-    t[7] = string.pack(">L", duration)
+    t[7] = string.pack(">I4", duration)
     writeChecksum(t)
 end
 
@@ -202,17 +202,17 @@ function M.writeAlbum(t, album)
 end
 
 function M.writeYear(t, year)
-    t[13] = string.pack(">L", year)
+    t[13] = string.pack(">I4", year)
     writeChecksum(t)
 end
 
 function M.writeTrackNumber(t, trackNumber)
-    t[14] = string.pack(">H", trackNumber)
+    t[14] = string.pack(">I2", trackNumber)
     writeChecksum(t)
 end
 
 function M.writeGenreId(t, genreId)
-    t[15] = string.pack(">H", genreId)
+    t[15] = string.pack(">I2", genreId)
     writeChecksum(t)
 end
 

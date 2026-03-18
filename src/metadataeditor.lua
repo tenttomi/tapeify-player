@@ -21,6 +21,10 @@ local function pressAnyKey()
     event.pull("key_down")
 end
 
+local function trimEmptyBack(str)
+    return str:match("(.-)%z*$")
+end
+
 -- TODO: Maybe this shouldnt be here, prolly should be in main program instead but idk
 local function readTape()
     tape.stop()
@@ -62,14 +66,14 @@ local function clearMetadata()
 end
 
 local function showMetadata()
-    print("Title: \t\t" .. md.readTitle(metadata))
-    print("Artist: \t" .. md.readArtist(metadata))
-    print("Album: \t\t" .. md.readAlbum(metadata))
+    print("Title: \t\t" .. trimEmptyBack(md.readTitle(metadata)))
+    print("Artist: \t" .. trimEmptyBack(md.readArtist(metadata)))
+    print("Album: \t\t" .. trimEmptyBack(md.readAlbum(metadata)))
     print("Year: \t\t" .. md.readYear(metadata))
     print("TrackNumber: \t" .. md.readTrackNumber(metadata))
     print("GenreId: \t" .. md.readGenreId(metadata))
-    print("Genre: \t\t" .. md.readGenre(metadata))
-    print("Comment: \t" .. md.readComment(metadata))
+    print("Genre: \t\t" .. trimEmptyBack(md.readGenre(metadata)))
+    print("Comment: \t" .. trimEmptyBack(md.readComment(metadata)))
     print("UniqueID: \t" .. md.readUniqueID(metadata))
     print("Duration: \t" .. md.readDuration(metadata))
     print("FeatureFlags: \t" .. "AsciiArt: " .. tostring(md.hasAsciiArt(metadata)) .. " Lyrics: " .. tostring(md.hasLyrics(metadata)))
@@ -84,14 +88,14 @@ local function showDetailed()
     print("UniqueID: \t" .. md.readUniqueID(metadata))
     print("Duration: \t" .. md.readDuration(metadata))
     print("FeatureFlags: \t" .. md.readFeatureFlags(metadata))
-    print("Title: \t\t" .. md.readTitle(metadata))
-    print("Artist: \t" .. md.readArtist(metadata))
-    print("Album: \t\t" .. md.readAlbum(metadata))
+    print("Title: \t\t" .. trimEmptyBack(md.readTitle(metadata)))
+    print("Artist: \t" .. trimEmptyBack(md.readArtist(metadata)))
+    print("Album: \t\t" .. trimEmptyBack(md.readAlbum(metadata)))
     print("Year: \t\t" .. md.readYear(metadata))
     print("TrackNumber: \t" .. md.readTrackNumber(metadata))
     print("GenreId: \t" .. md.readGenreId(metadata))
-    print("Genre: \t\t" .. md.readGenre(metadata))
-    print("Comment: \t" .. md.readComment(metadata))
+    print("Genre: \t\t" .. trimEmptyBack(md.readGenre(metadata)))
+    print("Comment: \t" .. trimEmptyBack(md.readComment(metadata)))
 end
 
 local function show_menu()
@@ -121,15 +125,15 @@ local function showComparison()
     -- print("EncoderFlags: \t" .. md.readEncoderFlags(metadataOriginal).. " -> " .. md.readEncoderFlags(metadata))
     -- print("UniqueID: \t" .. md.readUniqueID(metadataOriginal).. " -> " .. md.readUniqueID(metadata))
     -- print("FeatureFlags: \t" .. md.readFeatureFlags(metadataOriginal).. " -> " .. md.readFeatureFlags(metadata))
-    print("Title: \t\t" .. md.readTitle(metadataOriginal).. " -> " .. md.readTitle(metadata))
-    print("Artist: \t" .. md.readArtist(metadataOriginal).. " -> " .. md.readArtist(metadata))
-    print("Album: \t\t" .. md.readAlbum(metadataOriginal).. " -> " .. md.readAlbum(metadata))
-    print("Year: \t\t" .. md.readYear(metadataOriginal).. " -> " .. md.readYear(metadata))
-    print("TrackNumber: \t" .. md.readTrackNumber(metadataOriginal).. " -> " .. md.readTrackNumber(metadata))
-    print("GenreId: \t" .. md.readGenreId(metadataOriginal).. " -> " .. md.readGenreId(metadata))
-    print("Genre: \t\t" .. md.readGenre(metadataOriginal).. " -> " .. md.readGenre(metadata))
-    print("Comment: \t" .. md.readComment(metadataOriginal).. " -> " .. md.readComment(metadata))
-    print("Duration: \t" .. md.readDuration(metadataOriginal).. " -> " .. md.readDuration(metadata))
+    print("Title: \t\t" .. trimEmptyBack(md.readTitle(metadataOriginal))..  " -> " .. trimEmptyBack(md.readTitle(metadata)))
+    print("Artist: \t" .. trimEmptyBack(md.readArtist(metadataOriginal))..  " -> " .. trimEmptyBack(md.readArtist(metadata)))
+    print("Album: \t\t" .. trimEmptyBack(md.readAlbum(metadataOriginal))..  " -> " .. trimEmptyBack(md.readAlbum(metadata)))
+    print("Year: \t\t" .. md.readYear(metadataOriginal) ..                  " -> " .. md.readYear(metadata))
+    print("TrackNumber: \t" .. md.readTrackNumber(metadataOriginal)..       " -> " .. md.readTrackNumber(metadata))
+    print("GenreId: \t" .. md.readGenreId(metadataOriginal)..               " -> " .. md.readGenreId(metadata))
+    print("Genre: \t\t" .. trimEmptyBack(md.readGenre(metadataOriginal))..  " -> " .. trimEmptyBack(md.readGenre(metadata)))
+    print("Comment: \t" .. trimEmptyBack(md.readComment(metadataOriginal)).." -> " .. trimEmptyBack(md.readComment(metadata)))
+    print("Duration: \t" .. md.readDuration(metadataOriginal)..             " -> " .. md.readDuration(metadata))
 end
 
 local menu_action = {}
@@ -256,31 +260,31 @@ end
 edit_action["5"] = function()
     io.write("New Track Number: ")
     local trackNumber = tonumber(io.read())
-    md.writeYear(metadata, trackNumber)
+    md.writeTrackNumber(metadata, trackNumber)
 end
 
 edit_action["6"] = function()
     io.write("New GenreId (0-255): ")
     local genreId = tonumber(io.read())
-    md.writeYear(metadata, genreId)
+    md.writeGenreId(metadata, genreId)
 end
 
 edit_action["7"] = function()
     io.write("New Genre  (Max 24 char): ")
     local genre = io.read()
-    md.writeAlbum(metadata, genre)
+    md.writeGenre(metadata, genre)
 end
 
 edit_action["8"] = function()
     io.write("New Comment (Max 320 char): ")
     local comment = io.read()
-    md.writeAlbum(metadata, comment)
+    md.writeComment(metadata, comment)
 end
 
 edit_action["9"] = function()
     io.write("New Duration: ")
-    local comment = tonumber(io.read())
-    md.writeDuration(metadata, comment)
+    local duration = tonumber(io.read())
+    md.writeDuration(metadata, duration)
 end
 
 --------------------------------------------------
